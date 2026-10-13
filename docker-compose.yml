@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: mindfocus
+      POSTGRES_USER: mindfocus
+      POSTGRES_PASSWORD: mindfocus
+    ports: ["5432:5432"]
+    volumes: ["mindfocus-data:/var/lib/postgresql/data"]
+
+  mailhog:            # catches reminder emails in development
+    image: mailhog/mailhog
+    ports: ["1025:1025", "8025:8025"]
+
+volumes:
+  mindfocus-data:
