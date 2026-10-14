@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/mindfocus}
+    username: ${DB_USER:mindfocus}
+    password: ${DB_PASSWORD:mindfocus}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update        # switch to Flyway/Liquibase migrations before going to production
+  mail:
+    host: ${MAIL_HOST:localhost}   # MailHog from docker-compose (UI on http://localhost:8025)
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USER:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: ${MAIL_AUTH:false}
+      mail.smtp.starttls.enable: ${MAIL_STARTTLS:false}
+
+server:
+  port: 8080
+  error:
+    include-message: always
+
+app:
+  zone: ${APP_ZONE:Europe/Warsaw}      # deadlines are stored as local date-times in this zone
+  cors-origin: ${CORS_ORIGIN:http://localhost:4200}
+  mail-from: ${MAIL_FROM:no-reply@mindfocus.local}
+  jwt:
+    secret: ${JWT_SECRET:change-me-please-change-me-please-change-me-0123456789}
+    expiration-minutes: 720
+  push:
+    public-key: ${VAPID_PUBLIC:}
+    private-key: ${VAPID_PRIVATE:}
+    subject: ${VAPID_SUBJECT:mailto:you@example.com}
