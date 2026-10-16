@@ -1,7 +1,7 @@
-package com.dayfolio.web;
+package com.mindfocus.web;
 
-import com.dayfolio.domain.Note;
-import com.dayfolio.repo.NoteRepository;
+import com.mindfocus.domain.Note;
+import com.mindfocus.repo.NoteRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

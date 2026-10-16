@@ -1,8 +1,8 @@
-package com.dayfolio.web;
+package com.mindfocus.web;
 
-import com.dayfolio.domain.OwnedEntity;
-import com.dayfolio.repo.OwnedRepository;
-import com.dayfolio.security.CurrentUser;
+import com.mindfocus.domain.OwnedEntity;
+import com.mindfocus.repo.OwnedRepository;
+import com.mindfocus.security.CurrentUser;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;

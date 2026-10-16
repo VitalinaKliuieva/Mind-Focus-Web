@@ -1,6 +1,6 @@
-package com.dayfolio.repo;
+package com.mindfocus.repo;
 
-import com.dayfolio.domain.*;
+import com.mindfocus.domain.*;
 import java.time.*;
 import java.util.*;
 

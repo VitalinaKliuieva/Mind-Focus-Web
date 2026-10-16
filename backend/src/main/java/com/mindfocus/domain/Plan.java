@@ -1,4 +1,4 @@
-package com.dayfolio.domain;
+package com.mindfocus.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;

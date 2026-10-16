@@ -1,7 +1,7 @@
-package com.dayfolio.web;
+package com.mindfocus.web;
 
-import com.dayfolio.domain.TodoItem;
-import com.dayfolio.repo.TodoRepository;
+import com.mindfocus.domain.TodoItem;
+import com.mindfocus.repo.TodoRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

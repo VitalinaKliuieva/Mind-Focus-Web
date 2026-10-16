@@ -1,4 +1,4 @@
-package com.dayfolio.domain;
+package com.mindfocus.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

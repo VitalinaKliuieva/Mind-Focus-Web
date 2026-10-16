@@ -1,7 +1,7 @@
-package com.dayfolio.web;
+package com.mindfocus.web;
 
-import com.dayfolio.domain.Plan;
-import com.dayfolio.repo.PlanRepository;
+import com.mindfocus.domain.Plan;
+import com.mindfocus.repo.PlanRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

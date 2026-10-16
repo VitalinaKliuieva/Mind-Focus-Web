@@ -1,3 +1,3 @@
-package com.dayfolio.domain;
+package com.mindfocus.domain;
 
 public enum PlanType { DAY, MONTH }

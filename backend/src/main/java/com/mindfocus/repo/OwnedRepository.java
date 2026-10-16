@@ -1,6 +1,6 @@
-package com.dayfolio.repo;
+package com.mindfocus.repo;
 
-import com.dayfolio.domain.OwnedEntity;
+import com.mindfocus.domain.OwnedEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
