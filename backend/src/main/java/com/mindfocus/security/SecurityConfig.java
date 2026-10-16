@@ -1,6 +1,6 @@
-package com.dayfolio.security;
+package com.mindfocus.security;
 
-import com.dayfolio.config.AppProperties;
+import com.mindfocus.config.AppProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
