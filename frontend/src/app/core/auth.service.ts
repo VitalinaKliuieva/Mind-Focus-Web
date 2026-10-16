@@ -12,11 +12,11 @@ export class AuthService {
   private router = inject(Router);
 
   get token(): string | null {
-    return localStorage.getItem('dayfolio.token');
+    return localStorage.getItem('mindfocus.token');
   }
 
   get user(): User | null {
-    const raw = localStorage.getItem('dayfolio.user');
+    const raw = localStorage.getItem('mindfocus.user');
     return raw ? (JSON.parse(raw) as User) : null;
   }
 
@@ -33,13 +33,13 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('dayfolio.token');
-    localStorage.removeItem('dayfolio.user');
+    localStorage.removeItem('mindfocus.token');
+    localStorage.removeItem('mindfocus.user');
     this.router.navigateByUrl('/login');
   }
 
   private store(r: AuthResponse): void {
-    localStorage.setItem('dayfolio.token', r.token);
-    localStorage.setItem('dayfolio.user', JSON.stringify(r.user));
+    localStorage.setItem('mindfocus.token', r.token);
+    localStorage.setItem('mindfocus.user', JSON.stringify(r.user));
   }
 }
