@@ -5,6 +5,7 @@ spring:
     password: ${DB_PASSWORD:mindfocus}
   jpa:
     open-in-view: false
+    show-sql: true
     hibernate:
       ddl-auto: update        # switch to Flyway/Liquibase migrations before going to production
   mail:
