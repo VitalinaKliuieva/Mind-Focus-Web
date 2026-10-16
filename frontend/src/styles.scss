@@ -1,0 +1,178 @@
+/* ============ MindFocus: paper diary, typewriter, black + beige + pastels ============ */
+:root {
+  --ink: #000;
+  --desk: #d8c7a0;         /* beige desk behind the notebook */
+  --paper: #f6edd8;        /* page */
+  --paper-deep: #ecdfc0;   /* darker beige for inputs and wells */
+  --pink: #f5c6d1;
+  --mint: #c6e7d2;
+  --lavender: #d9cdf2;
+  --butter: #f8eab0;
+  --sky: #cce1f1;
+  --peach: #fad5b8;
+  --line: rgba(0, 0, 0, 0.12);
+  --shadow: 4px 4px 0 var(--ink);
+  --font-head: 'Special Elite', 'Courier New', monospace;
+  --font-body: 'Courier Prime', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; min-height: 100%; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--desk);
+}
+
+h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 400; margin: 0 0 .5rem; line-height: 1.2; }
+h2.page-title { font-size: 2rem; margin-bottom: 1.2rem; }
+h3 { font-size: 1.25rem; }
+p { margin: 0 0 .6rem; }
+small, .muted { opacity: .65; }
+a { color: inherit; }
+
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+/* ---------- notebook layout ---------- */
+.layout { display: flex; min-height: 100vh; }
+
+.side {
+  width: 230px; flex: none; background: var(--ink); color: var(--paper);
+  padding: 1.6rem 0 1.2rem; display: flex; flex-direction: column;
+}
+.side .logo { font-size: 1.7rem; padding: 0 1.4rem; margin-bottom: 1.6rem; letter-spacing: .02em; }
+.side nav { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+
+/* index tabs that stick out of the binder spine */
+.side nav a {
+  text-decoration: none; padding: .55rem 1.4rem; margin-right: -14px;
+  border-radius: 0 10px 10px 0; color: var(--paper); font-family: var(--font-head);
+  border: 2px solid transparent; border-left: 0; transition: margin .12s;
+}
+.side nav a:hover { margin-right: -22px; }
+.side nav a.active { color: var(--ink); border-color: var(--ink); margin-right: -22px; }
+.side nav a:nth-child(1).active { background: var(--butter); }
+.side nav a:nth-child(2).active { background: var(--pink); }
+.side nav a:nth-child(3).active { background: var(--mint); }
+.side nav a:nth-child(4).active { background: var(--sky); }
+.side nav a:nth-child(5).active { background: var(--lavender); }
+.side nav a:nth-child(6).active { background: var(--peach); }
+.side nav a:nth-child(7).active { background: var(--pink); }
+.side nav a:nth-child(8).active { background: var(--mint); }
+.side-foot { padding: 0 1.4rem; font-size: .9rem; display: flex; flex-direction: column; gap: .5rem; }
+
+.main {
+  flex: 1; min-width: 0; margin: 1.2rem 1.2rem 1.2rem 26px; background: var(--paper);
+  border: 2px solid var(--ink); box-shadow: var(--shadow); position: relative;
+  padding: 1.2rem 2rem 3rem 3.2rem;
+  /* faint ruled lines */
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, var(--line) 31px 32px);
+  background-position: 0 4rem;
+}
+/* binder holes along the left edge of the page */
+.main::before {
+  content: ''; position: absolute; left: 12px; top: 0; bottom: 0; width: 18px;
+  background: radial-gradient(circle at 9px 9px, var(--desk) 0 6px, var(--ink) 6px 7.5px, transparent 8px) 0 0 / 18px 120px repeat-y;
+}
+
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+.topbar .date { font-family: var(--font-head); font-size: 1.05rem; }
+.topbar .actions { display: flex; gap: .6rem; align-items: center; position: relative; }
+
+@media (max-width: 800px) {
+  .layout { flex-direction: column; }
+  .side { width: 100%; padding: .8rem 0; }
+  .side nav { flex-direction: row; flex-wrap: wrap; padding: 0 .8rem; gap: 4px; }
+  .side nav a { margin: 0 !important; border-radius: 8px; border-left: 2px solid transparent; padding: .3rem .7rem; }
+  .side-foot { flex-direction: row; align-items: center; padding: .6rem 1rem 0; }
+  .main { margin: .8rem; padding: 1rem 1rem 2rem 2.4rem; }
+}
+
+/* ---------- surfaces ---------- */
+.card {
+  position: relative; background: #fffaf0; border: 2px solid var(--ink); box-shadow: var(--shadow);
+  padding: 1rem 1.1rem;
+}
+.card.pink { background: var(--pink); }
+.card.mint { background: var(--mint); }
+.card.lav { background: var(--lavender); }
+.card.butter { background: var(--butter); }
+.card.sky { background: var(--sky); }
+.card.peach { background: var(--peach); }
+/* strip of washi tape on top of a card */
+.card.taped::after {
+  content: ''; position: absolute; top: -11px; left: 50%; width: 72px; height: 20px; transform: translateX(-50%) rotate(-2deg);
+  background: rgba(255, 255, 255, .55); border: 1.5px solid var(--ink);
+}
+
+.grid { display: grid; gap: 1.2rem; }
+.grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.row { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.stack > * + * { margin-top: .9rem; }
+.big { font-family: var(--font-head); font-size: 2.4rem; line-height: 1; margin: .2rem 0 .5rem; }
+
+/* ---------- form controls ---------- */
+label.field { display: flex; flex-direction: column; gap: .2rem; font-size: .9rem; }
+input, textarea, select {
+  font: inherit; color: inherit; background: var(--paper-deep); border: 0; border-bottom: 2px solid var(--ink);
+  padding: .45rem .5rem; border-radius: 0; min-width: 0;
+}
+textarea { min-height: 110px; resize: vertical; border: 2px solid var(--ink); }
+input:focus, textarea:focus, select:focus { background: #fff6dc; outline: none; box-shadow: 0 3px 0 var(--ink); }
+
+.btn {
+  font: inherit; font-family: var(--font-head); cursor: pointer; color: var(--ink); background: var(--butter);
+  border: 2px solid var(--ink); padding: .4rem .9rem; box-shadow: 3px 3px 0 var(--ink);
+  transition: transform .08s, box-shadow .08s;
+}
+.btn:hover { background: var(--pink); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+.btn.mint { background: var(--mint); }
+.btn.lav { background: var(--lavender); }
+.btn.sm { padding: .15rem .55rem; font-size: .85rem; box-shadow: 2px 2px 0 var(--ink); }
+.btn.ghost { background: transparent; color: inherit; border-color: currentColor; box-shadow: none; }
+.btn.ghost:hover { background: rgba(255, 255, 255, .12); }
+.btn.danger:hover { background: #f2a7a7; }
+.badge { background: var(--ink); color: var(--paper); border-radius: 99px; padding: 0 .45rem; margin-left: .3rem; font-size: .8rem; }
+
+.error { background: #f6c6c6; border: 2px solid var(--ink); padding: .5rem .8rem; margin: .8rem 0; }
+.empty { border: 2px dashed var(--ink); padding: 1rem; text-align: center; background: rgba(255, 255, 255, .35); }
+
+/* ---------- lists, checks, progress ---------- */
+.items { list-style: none; margin: 0; padding: 0; }
+.items li { display: flex; align-items: center; gap: .7rem; padding: .5rem 0; border-bottom: 1.5px dotted var(--ink); }
+.items li .grow { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.items li.done .grow { text-decoration: line-through; opacity: .55; }
+
+.check {
+  appearance: none; width: 22px; height: 22px; flex: none; margin: 0; padding: 0; background: #fffaf0;
+  border: 2px solid var(--ink); cursor: pointer; display: inline-grid; place-content: center;
+}
+.check:checked { background: var(--mint); }
+.check:checked::after { content: '✓'; font-weight: 700; line-height: 1; }
+
+.bar { height: 16px; border: 2px solid var(--ink); background: #fffaf0; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--mint); border-right: 2px solid var(--ink); transition: width .35s; }
+.bar.pink i { background: var(--pink); }
+.bar.lav i { background: var(--lavender); }
+
+.tag { display: inline-block; border: 1.5px solid var(--ink); padding: 0 .45rem; font-size: .8rem; background: var(--butter); }
+.tag.late { background: #f2a7a7; }
+.tabs { display: flex; gap: .4rem; margin-bottom: 1rem; }
+.tabs button { font: inherit; font-family: var(--font-head); cursor: pointer; border: 2px solid var(--ink); padding: .3rem .9rem; background: transparent; }
+.tabs button.on { background: var(--lavender); box-shadow: 3px 3px 0 var(--ink); }
+
+/* text that looks typed on the page */
+.typed { list-style: none; padding: 0; margin: 0; }
+.typed li::before { content: '> '; font-weight: 700; }
+.typed li { margin-bottom: .35rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
