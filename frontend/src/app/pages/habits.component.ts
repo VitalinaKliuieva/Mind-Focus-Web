@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { forkJoin } from 'rxjs';
 import { ApiService, Habit, HabitLog, HabitStat } from '../core/api.service';
 import { addDays, errorText, today } from '../core/dates';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-habits',
@@ -101,7 +101,7 @@ export class HabitsComponent implements OnInit {
 
   cycle(h: Habit, d: string): void {
     const s = this.state(h, d);
-    const call = s === 'none' ? this.api.setHabitLog(h.id!, d, true)
+    const call: Observable<unknown> = s === 'none' ? this.api.setHabitLog(h.id!, d, true)
       : s === 'ok' ? this.api.setHabitLog(h.id!, d, false)
       : this.api.clearHabitLog(h.id!, d);
     call.subscribe(() => this.load());
