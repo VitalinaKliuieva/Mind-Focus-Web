@@ -71,7 +71,7 @@ public class ReminderScheduler {
                 m.setTo(user.getEmail());
                 m.setSubject(title);
                 m.setText("Hi " + user.getDisplayName() + ",\n\n\"" + p.getTitle() + "\" is due "
-                        + p.getDeadline().format(FMT) + ".\n\nYour Dayfolio");
+                        + p.getDeadline().format(FMT) + ".\n\nYour MindFocus");
                 mail.send(m);
             } catch (Exception e) {
                 log.warn("Reminder email to {} failed: {}", user.getEmail(), e.getMessage());
