@@ -1,0 +1,40 @@
+# --- Gradle / Java (backend and qa) ---
+\.gradle/
+\build/
+out/
+*.class
+hs_err_pid*
+*.log
+
+# --- Node / Angular (frontend) ---
+node_modules/
+dist/
+.angular/
+out-tsc/
+coverage/
+npm-debug.log*
+yarn-error.log*
+
+# --- Test reports ---
+allure-results/
+allure-report/
+
+# --- Secrets and local config ---
+.env
+.env.*
+application-local.yml
+application-local.properties
+
+# --- IDEs ---
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
