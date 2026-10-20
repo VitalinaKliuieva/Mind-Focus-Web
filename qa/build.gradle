@@ -1,0 +1,74 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.mindfocus'
+version = '0.1.0'
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(21) }
+}
+
+repositories { mavenCentral() }
+
+configurations {
+    aspectjAgent      // Allure needs the AspectJ agent to record @Step methods
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.11.3')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    testImplementation 'org.assertj:assertj-core:3.26.3'
+    testImplementation 'io.rest-assured:rest-assured:5.5.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.25.0'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+
+    testImplementation platform('io.qameta.allure:allure-bom:2.29.0')
+    testImplementation 'io.qameta.allure:allure-junit5'
+    testImplementation 'io.qameta.allure:allure-rest-assured'
+
+    aspectjAgent 'org.aspectj:aspectjweaver:1.9.22'
+}
+
+// shared settings for every test task: JUnit 5, optional tag filter, Allure agent, readable logging
+def configureSuite = { Test t, String tag ->
+    t.useJUnitPlatform {
+        if (tag) includeTags tag
+    }
+    t.doFirst {
+        t.jvmArgs "-javaagent:${configurations.aspectjAgent.singleFile}"
+    }
+    t.testLogging { events 'passed', 'skipped', 'failed' }
+    t.outputs.upToDateWhen { false }   // these tests talk to a live server, so never skip them as "up to date"
+}
+
+tasks.named('test') {
+    description = 'Runs all tests (API and browser). Backend and frontend must be running.'
+    configureSuite(it, null)
+}
+
+tasks.register('apiTest', Test) {
+    group = 'verification'
+    description = 'REST API tests. The backend must be running.'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    configureSuite(it, 'api')
+}
+
+tasks.register('e2eTest', Test) {
+    group = 'verification'
+    description = 'Browser tests. Backend and frontend must be running, and Chrome installed.'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    configureSuite(it, 'e2e')
+}
+
+tasks.register('smokeTest', Test) {
+    group = 'verification'
+    description = 'Only the tests tagged smoke: the quickest check that the system works.'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    configureSuite(it, 'smoke')
+}
