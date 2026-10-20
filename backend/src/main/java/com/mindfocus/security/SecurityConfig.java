@@ -30,9 +30,10 @@ public class SecurityConfig {
             .cors(Customizer.withDefaults())
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(a -> a
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/auth/register", "/api/auth/login", "/api/push/public-key").permitAll()
-                .anyRequest().authenticated())
+                   .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                  .requestMatchers("/error").permitAll()      // <-- add this line
+                  .requestMatchers("/api/auth/register", "/api/auth/login", "/api/push/public-key").permitAll()
+                  .anyRequest().authenticated())
             .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
             .addFilterBefore(new JwtAuthFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
         return http.build();

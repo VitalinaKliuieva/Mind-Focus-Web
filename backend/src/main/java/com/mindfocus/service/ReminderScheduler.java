@@ -39,7 +39,8 @@ public class ReminderScheduler {
     private final JavaMailSender mail;
     private final AppProperties props;
 
-    @Scheduled(fixedDelay = 60_000, initialDelay = 15_000)
+    @Scheduled(fixedDelayString = "${app.reminder-interval-ms:60000}",
+            initialDelayString = "${app.reminder-initial-delay-ms:15000}")
     @Transactional
     public void run() {
         LocalDateTime now = LocalDateTime.now(ZoneId.of(props.zone()));

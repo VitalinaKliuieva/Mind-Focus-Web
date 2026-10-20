@@ -8,6 +8,8 @@ import com.mindfocus.security.CurrentUser;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -34,7 +36,7 @@ public class HabitController extends OwnedCrudController<Habit> {
         logs.deleteByHabitId(h.getId());
     }
 
-    public record LogRequest(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, boolean success) {}
+    public record LogRequest(@NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, boolean success){}
 
     public record HabitStat(Long habitId, int currentStreak, int bestStreak, int successRate30) {}
 
@@ -46,7 +48,7 @@ public class HabitController extends OwnedCrudController<Habit> {
 
     @PutMapping("/{id}/log")
     @Transactional
-    public HabitLog setLog(@PathVariable Long id, @RequestBody LogRequest req) {
+    public HabitLog setLog(@PathVariable Long id, @Valid @RequestBody LogRequest req) {
         find(id); // ownership check
         Long uid = CurrentUser.id();
         HabitLog log = logs.findByUserIdAndHabitIdAndLogDate(uid, id, req.date()).orElseGet(() -> {
@@ -72,29 +74,36 @@ public class HabitController extends OwnedCrudController<Habit> {
     public List<HabitStat> stats() {
         Long uid = CurrentUser.id();
         LocalDate today = LocalDate.now();
+
         Map<Long, List<HabitLog>> byHabit = new HashMap<>();
         for (HabitLog l : logs.findByUserId(uid)) {
             byHabit.computeIfAbsent(l.getHabitId(), k -> new ArrayList<>()).add(l);
         }
+
         List<HabitStat> out = new ArrayList<>();
         for (Habit h : repo.findByUserId(uid)) {
             List<HabitLog> hl = byHabit.getOrDefault(h.getId(), List.of());
+
             Set<LocalDate> good = new HashSet<>();
+            Set<LocalDate> failed = new HashSet<>();
             int recentTotal = 0, recentGood = 0;
             for (HabitLog l : hl) {
-                if (l.isSuccess()) good.add(l.getLogDate());
+                if (l.isSuccess()) good.add(l.getLogDate()); else failed.add(l.getLogDate());
                 if (!l.getLogDate().isBefore(today.minusDays(29))) {
                     recentTotal++;
                     if (l.isSuccess()) recentGood++;
                 }
             }
-            // current streak: consecutive successful days ending today (or yesterday if today is not logged yet)
-            LocalDate cursor = good.contains(today) ? today : today.minusDays(1);
+
+            // current streak: successful days ending today;
+            // yesterday only counts when today has no log yet (a slip today resets the streak)
+            LocalDate cursor = good.contains(today) ? today : failed.contains(today) ? null : today.minusDays(1);
             int current = 0;
-            while (good.contains(cursor)) {
+            while (cursor != null && good.contains(cursor)) {
                 current++;
                 cursor = cursor.minusDays(1);
             }
+
             // best streak
             List<LocalDate> sorted = new ArrayList<>(good);
             Collections.sort(sorted);
@@ -105,6 +114,7 @@ public class HabitController extends OwnedCrudController<Habit> {
                 best = Math.max(best, run);
                 prev = d;
             }
+
             int rate = recentTotal == 0 ? 0 : Math.round(100f * recentGood / recentTotal);
             out.add(new HabitStat(h.getId(), current, best, rate));
         }
