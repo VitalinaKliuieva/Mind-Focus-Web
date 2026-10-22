@@ -1,6 +1,8 @@
 # --- Gradle / Java (backend and qa) ---
 \.gradle/
 \build/
+\gradlew/
+\.bat
 out/
 *.class
 hs_err_pid*

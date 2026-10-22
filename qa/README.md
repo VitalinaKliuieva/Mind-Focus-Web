@@ -34,7 +34,7 @@ Report (install the Allure command line tool once, for example `brew install all
 allure serve build/allure-results
 ```
 
-Environment variables: `API_URL` (default http://localhost:8080), `BASE_URL` (default http://localhost:4200),
+Environment variables: `API_URL` (default /api), `BASE_URL` (default http://localhost:4200),
 `HEADLESS=0` to watch the browser. Java 21 is needed. Selenium Manager downloads the Chrome driver on the first run,
 so that run needs internet access.
 
