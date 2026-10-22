@@ -4,7 +4,7 @@ package com.mindfocus.qa.support;
 public final class Settings {
     private Settings() {}
 
-    public static final String API_URL = env("API_URL", "http://localhost:8080");
+    public static final String API_URL = env("API_URL", "/api");
     public static final String BASE_URL = env("BASE_URL", "http://localhost:4200");
     public static final boolean HEADLESS = !"0".equals(env("HEADLESS", "1"));
     public static final String PASSWORD = "password1";
